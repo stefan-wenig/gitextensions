@@ -65,10 +65,10 @@ for:
     method: POST
     headers:
       Authorization:
-        secure: uwwviMihzoBt/uwQUINm7qhrlbVO6Y3T8Dp8AcVuEp7KVWWTt/jdazHQA1wg6rXL1FfxE0nxZ0lsIrHTZu9jow==
+        secure: IAVENoboim8P/l6nqkuJtywrYR2Z+JyzayTjlpXGSEg5qjuc1GjTE29EjW6QbNvTl87ngCAcbZvk6QzfDFzotw==
     body: >-
       {
-        "AccountName": "SignPath",
+        "AccountName": "GitExtensionsCI",
         "ProjectSlug": "{{projectName}}",
         "BuildVersion": "{{buildVersion}}",
         "SigningPolicyId": "e7095762-6b2e-4744-aba6-c44bb9d9d199"
