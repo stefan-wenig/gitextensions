@@ -88,6 +88,31 @@ for:
     only:
       - /release\/.*/
 
-  artifacts:
-    # upload the generated installer
-    - path: 'Setup/GitExtensions-*.msi'
+  environment:
+    spciuser:
+      secure: EXePkESDEjb7xVhuZQwxTVFK7hCDDq7n1Mk86Q5PLiH56YNpVBxcJPwomlz8UdC9
+
+#   artifacts:
+#     # upload the generated installer
+#     - path: 'Setup/GitExtensions-*.msi'
+
+  on_success:
+  - ps: |
+      pushd .\Setup
+      [Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+      Invoke-WebRequest -Uri https://app.signpath.io/API/v1/Tools/SignPath.psm1 -OutFile .\SignPath.psm1
+      if (!(Test-Path .\SignPath.psm1)) {
+          throw 'Unable to download https://app.signpath.io/API/v1/Tools/SignPath.psm1'
+      }
+      Import-Module .\SignPath.psm1 -Force;
+      $msi = (Resolve-Path GitExtensions-*.msi)[0].Path;
+      $msiSigned = $msi.Replace('.msi', '-signed.msi');
+      Submit-SigningRequest `
+          -InputArtifactPath $msi `
+          -CIUserToken $env:spciuser `
+          -OrganizationId '0838c0b6-8e2b-441a-81d4-6e895f8bed60' `
+          -SigningPolicyId 'e7095762-6b2e-4744-aba6-c44bb9d9d199' `
+          -OutputArtifactPath $msiSigned `
+          -WaitForCompletionTimeoutInSeconds 120
+      $msiName = Split-Path $msi -Leaf
+      Push-AppveyorArtifact $msiSigned -FileName $msiName
