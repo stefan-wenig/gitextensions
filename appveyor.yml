@@ -58,7 +58,7 @@ build_script:
 
 # to run your custom scripts instead of automatic tests
 test_script:
-- ps: |
+- ps: Exit-AppVeyorBuild |
     $testAssemblies = (Get-ChildItem -Path UnitTests\*\bin\Release\ -Filter '*Tests.dll' -Recurse -Exclude 'ApprovalTests.dll').FullName
     $packageConfig = [xml](Get-Content .nuget\packages.config)
     $opencover_version = $packageConfig.SelectSingleNode('/packages/package[@id="OpenCover"]').version
@@ -134,7 +134,8 @@ for:
           Write-Host "[INFO]: Do not sign non-release branches"
           Get-ChildItem .\Setup\GitExtensions-Portable-*.zip | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
           Exit-AppVeyorBuild
-          return
+          
+          e
       }
       # continue on with signing
       pushd .\Setup
