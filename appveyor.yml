@@ -152,7 +152,7 @@ for:
 
   deploy:
   - provider: Webhook
-    url: https://app.signpath.io/API/v1/72ca56cc-b008-4fe1-b09c-a488981328fc/Integrations/AppVeyor?SigningPolicyId=e46710f2-2318-496c-ac5c-5d50a2b4b0f9
+    url: https://fqa.test.signpath.io/API/v1/72ca56cc-b008-4fe1-b09c-a488981328fc/Integrations/AppVeyor?SigningPolicyId=e46710f2-2318-496c-ac5c-5d50a2b4b0f9
     on_build_success: true
     on_build_failure: false
     on_build_status_changed: false
