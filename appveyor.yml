@@ -58,7 +58,7 @@ build_script:
 
 # to run your custom scripts instead of automatic tests
 test_script:
-- ps: Exit-AppVeyorBuild |
+- ps: return |
     $testAssemblies = (Get-ChildItem -Path UnitTests\*\bin\Release\ -Filter '*Tests.dll' -Recurse -Exclude 'ApprovalTests.dll').FullName
     $packageConfig = [xml](Get-Content .nuget\packages.config)
     $opencover_version = $packageConfig.SelectSingleNode('/packages/package[@id="OpenCover"]').version
